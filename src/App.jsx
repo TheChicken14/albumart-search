@@ -45,7 +45,7 @@ function App() {
           setCountry={setCountry}
         />
 
-        <div className="results">
+        <div className="results" style={{ paddingBottom: "5rem" }}>
           {results.length == 0 && (
             <Alert variant="primary">
               Type something in the search bar to search!
@@ -56,7 +56,15 @@ function App() {
         </div>
       </div>
 
-      <footer className="footer--pin">
+      <footer
+        style={{
+          position: "fixed",
+          left: 0,
+          bottom: 0,
+          right: 0,
+          backgroundColor: "green",
+        }}
+      >
         <Card>
           <Card.Footer>
             Made by Wisse
