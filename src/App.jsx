@@ -1,17 +1,27 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import Searchbar from "./Components/Searchbar";
+import Results from "./Components/Results";
+import { Alert } from "react-bootstrap";
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
+  const [country, setCountry] = useState("nl");
+  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
   const search = useCallback(() => {
+    if (searchInput.trim().length == 0) return;
+
+    setLoading(true);
+    setResults([]);
+
     axios
       .get(`https://itunes.apple.com/search`, {
         params: {
           term: searchInput,
-          country: "nl",
+          country: country,
           entity: "album",
         },
       })
@@ -19,35 +29,29 @@ function App() {
         console.log(r);
         setResults(r.data.results);
       })
-      .catch((e) => console.error(e));
-  }, [searchInput]);
+      .catch((e) => console.error(e))
+      .finally(() => setLoading(false));
+  }, [searchInput, country]);
 
   return (
     <div className="App">
-      <div className="inputs App-header">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            search();
-          }}
-        >
-          <input
-            name="Search query"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
+      <Searchbar
+        value={searchInput}
+        setValue={setSearchInput}
+        search={search}
+        loading={loading}
+        country={country}
+        setCountry={setCountry}
+      />
 
-          <button type="submit">Search</button>
-        </form>
-      </div>
       <div className="results">
-        {results.map((r) => (
-          <div className="result" key={r.collectionId}>
-            <p>{r.collectionName}</p>
-            <p>by {r.artistName}</p>
-            <img src={r.artworkUrl100} />
-          </div>
-        ))}
+        {results.length == 0 && (
+          <Alert variant="primary">
+            Type something in the search bar to search!
+          </Alert>
+        )}
+
+        <Results results={results} loading={loading} />
       </div>
     </div>
   );
