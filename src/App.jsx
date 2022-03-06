@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import Searchbar from "./Components/Searchbar";
 import Results from "./Components/Results";
-import { Alert } from "react-bootstrap";
+import { Alert, Button, Card } from "react-bootstrap";
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
@@ -34,26 +34,44 @@ function App() {
   }, [searchInput, country]);
 
   return (
-    <div className="App">
-      <Searchbar
-        value={searchInput}
-        setValue={setSearchInput}
-        search={search}
-        loading={loading}
-        country={country}
-        setCountry={setCountry}
-      />
+    <>
+      <div className="App">
+        <Searchbar
+          value={searchInput}
+          setValue={setSearchInput}
+          search={search}
+          loading={loading}
+          country={country}
+          setCountry={setCountry}
+        />
 
-      <div className="results">
-        {results.length == 0 && (
-          <Alert variant="primary">
-            Type something in the search bar to search!
-          </Alert>
-        )}
+        <div className="results">
+          {results.length == 0 && (
+            <Alert variant="primary">
+              Type something in the search bar to search!
+            </Alert>
+          )}
 
-        <Results results={results} loading={loading} />
+          <Results results={results} loading={loading} />
+        </div>
       </div>
-    </div>
+
+      <footer className="footer--pin">
+        <Card>
+          <Card.Footer>
+            Made by Wisse
+            <Button
+              as="a"
+              target="_window"
+              href="https://github.com/TheChicken14/albumart-search"
+              style={{ marginLeft: "1vh" }}
+            >
+              GitHub
+            </Button>
+          </Card.Footer>
+        </Card>
+      </footer>
+    </>
   );
 }
 
