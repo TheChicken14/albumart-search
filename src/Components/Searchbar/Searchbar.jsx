@@ -3,14 +3,7 @@ import itunesCountries from "../../Util/itunesCountries";
 
 import "./Searchbar.css";
 
-export default function Searchbar({
-  value,
-  setValue,
-  search,
-  loading,
-  country,
-  setCountry,
-}) {
+export default function Searchbar({ value, setValue, country, setCountry }) {
   return (
     <>
       <Navbar bg="light">
@@ -23,21 +16,12 @@ export default function Searchbar({
           >
             <Nav>
               <Nav.Item className="nav-item">
-                <Form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    search();
-                  }}
-                >
-                  <Form.Control
-                    type="text"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    onSubmit={search}
-                    placeholder="Search..."
-                    disabled={loading}
-                  />
-                </Form>
+                <Form.Control
+                  type="text"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  placeholder="Search..."
+                />
               </Nav.Item>
 
               <Nav.Item>
@@ -51,12 +35,6 @@ export default function Searchbar({
                     </option>
                   ))}
                 </Form.Select>
-              </Nav.Item>
-
-              <Nav.Item className="nav-item">
-                <Button onClick={search} disabled={loading}>
-                  Search
-                </Button>
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>
